@@ -6,7 +6,7 @@
 /*   By: jrouchon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 20:19:42 by jrouchon          #+#    #+#             */
-/*   Updated: 2019/07/17 22:11:51 by llenotre         ###   ########.fr       */
+/*   Updated: 2019/08/07 19:30:42 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int			main(int argc, char **argv)
 	if (read_file(argv[1], &pieces) || check_pieces(pieces) || solve(pieces))
 	{
 		print_error();
+		ft_lstdel(&pieces, free_piece);
 		return (1);
 	}
 	ft_lstdel(&pieces, free_piece);
