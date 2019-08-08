@@ -6,13 +6,13 @@
 /*   By: jrouchon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 20:24:36 by jrouchon          #+#    #+#             */
-/*   Updated: 2019/08/07 19:30:13 by jrouchon         ###   ########.fr       */
+/*   Updated: 2019/08/08 18:04:51 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static char	*alloc_piece(char *buffer)
+static char	*alloc_p(char *buffer)
 {
 	char	*buff;
 	size_t	i;
@@ -31,7 +31,7 @@ static char	*alloc_piece(char *buffer)
 	return (buff);
 }
 
-static int	push_piece(t_list **pieces, char *buffer)
+static int	push_p(t_list **pieces, char *buffer)
 {
 	t_list	*p;
 	t_list	*tmp;
@@ -48,6 +48,33 @@ static int	push_piece(t_list **pieces, char *buffer)
 	else
 		*pieces = p;
 	return (0);
+}
+
+static int	check_p(char *buffer)
+{
+	int	side;
+	int	i;
+
+	side = 0;
+	i = 0;
+	while (i < 20)
+	{
+		if (buffer[i] == '#')
+		{
+			if ((i + 1) < 20 && buffer[i + 1] == '#')
+				++side;
+			if ((i - 1) >= 0 && buffer[i - 1] == '#')
+				++side;
+			if ((i + 5) < 20 && buffer[i + 5] == '#')
+				++side;
+			if ((i - 5) >= 0 && buffer[i - 5] == '#')
+				++side;
+		}
+		++i;
+	}
+	if (side == 6 || side == 8)
+		return (0);
+	return (1);
 }
 
 static int	handle_piece(t_list **pieces, char *buffer)
@@ -73,7 +100,7 @@ static int	handle_piece(t_list **pieces, char *buffer)
 		}
 		++i;
 	}
-	if (sharps != 4 || push_piece(pieces, alloc_piece(buffer)))
+	if (sharps != 4 || check_p(buffer) || push_p(pieces, alloc_p(buffer)))
 		return (1);
 	return (0);
 }
